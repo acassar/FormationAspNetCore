@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NetFlox.DAL.Film>
+
+    @{
+    ViewData["Title"] = "Films";
+    }
+
+    <h2>@Model.Count() films trouvés avec "@ViewBag.search"</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Titre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Annee)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pays)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    <img src="@item.UrlAffiche" height="50" />
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.Titre)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Annee)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pays)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>

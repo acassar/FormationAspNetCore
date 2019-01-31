@@ -27,6 +27,28 @@ namespace NetFlox.Controllers
             return View(films);
         }
 
+        public async Task<IActionResult> Search([FromQuery] string search)
+        {
+            if (search == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.search = search;
+
+            var films = await _context.Films
+                    .Where(c => EF.Functions.Like(c.Titre, "%" + search + "%"))
+                    .OrderByDescending(c => c.RoleCelebriteFilms.Count)
+                    .ThenByDescending(c => c.Titre)
+                    .ToListAsync();
+            if (films == null)
+            {
+                return NotFound();
+            }
+
+            return View(films);
+        }
+
         // GET: Films/Details/5
         public async Task<IActionResult> Details(int? id)
         {
